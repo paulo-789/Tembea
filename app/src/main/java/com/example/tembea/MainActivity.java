@@ -9,16 +9,18 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
-    private Button mfindSitesButton;
-    private EditText mLocationEditText;
+    @BindView(R.id.findSitesButton) Button mfindSitesButton;
+    @BindView(R.id.locationEditText) EditText mLocationEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mLocationEditText=(EditText)findViewById(R.id.locationEditText) ;
-        mfindSitesButton = (Button)findViewById(R.id.findSitesButton);
+
+
+//        mLocationEditText=(EditText)findViewById(R.id.locationEditText) ;
+//        mfindSitesButton = (Button)findViewById(R.id.findSitesButton);
         mfindSitesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
