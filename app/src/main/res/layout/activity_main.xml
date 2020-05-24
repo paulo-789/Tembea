@@ -5,16 +5,17 @@
         android:background="@drawable/stars">
 
 
-    <TextView
-        android:id="@+id/text2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@id/locationEditText"
-        android:text="TextView" />
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/locationEditText"
+            android:textColor="#ffffff"
+            android:textSize="30sp"
+            android:text="search" />
 
-
-    <EditText
+        <EditText
         android:id="@+id/locationEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
