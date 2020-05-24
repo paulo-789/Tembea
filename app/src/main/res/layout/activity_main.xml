@@ -5,6 +5,15 @@
         android:background="@drawable/stars">
 
 
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/locationEditText"
+        android:text="TextView" />
+
+
     <EditText
         android:id="@+id/locationEditText"
         android:layout_width="wrap_content"
@@ -28,10 +37,5 @@
         android:textColor="#ffffff" />
 
 
-
-
-
-
-
-    </RelativeLayout>
+</RelativeLayout>
 
