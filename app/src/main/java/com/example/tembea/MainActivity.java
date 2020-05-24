@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.findSitesButton) Button mfindSitesButton;
     @BindView(R.id.locationEditText) EditText mLocationEditText;
@@ -17,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        ButterKnife.bind(this);
 
 //        mLocationEditText=(EditText)findViewById(R.id.locationEditText) ;
 //        mfindSitesButton = (Button)findViewById(R.id.findSitesButton);
