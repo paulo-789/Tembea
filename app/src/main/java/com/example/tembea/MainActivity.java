@@ -1,5 +1,6 @@
 package com.example.tembea;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,31 +9,62 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.maps.MapView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-    @BindView(R.id.findSitesButton) Button mfindSitesButton;
-    @BindView(R.id.locationEditText) EditText mLocationEditText;
-
+  private MapView mapView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Mapbox.getInstance(this,getString(R.string.access_token));
         setContentView(R.layout.activity_main);
+        mapView = (MapView) findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
+    }
 
-        ButterKnife.bind(this);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
 
-//        mLocationEditText=(EditText)findViewById(R.id.locationEditText) ;
-//        mfindSitesButton = (Button)findViewById(R.id.findSitesButton);
-        mfindSitesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String location = mLocationEditText.getText().toString();
-                Intent intent = new Intent(MainActivity.this,Places.class);
-                intent.putExtra("location", location);
-                startActivity(intent);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
 
-            }
-        });
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mapView.onStop();
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+    @Override
+    public void onLowMemory(){
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
     }
 }
