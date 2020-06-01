@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Tembea</string>
-    <string name="access_token">sk.eyJ1IjoicGF1bG8tNzg5IiwiYSI6ImNrYXZsbHcxOTEzNmQyeW8zemNjemVqYzkifQ.ZTlo-0YrywhVZMks5cRICA</string>
+    <string name="mapbox_access_token">sk.eyJ1IjoicGF1bG8tNzg5IiwiYSI6ImNrYXZsbHcxOTEzNmQyeW8zemNjemVqYzkifQ.ZTlo-0YrywhVZMks5cRICA</string>
 </resources>
