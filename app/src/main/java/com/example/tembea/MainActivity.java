@@ -20,6 +20,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
     private MapView mapView;
+    private MapboxMap map;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
