@@ -26,13 +26,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements  OnMapReadyCallback, LocationListener, PermissionsListener {
+public class MainActivity extends AppCompatActivity {
     private MapView mapView;
-    private MapboxMap map;
-    private PermissionsManager permissionsManager;
-    private LocationEngine locationEngine;
-    private LocationLayerPlugin locationLayerPlugin;
-    private Location originalLocation;
 
 
     @Override
@@ -61,9 +56,8 @@ public class MainActivity extends AppCompatActivity implements  OnMapReadyCallba
 
             }
         });
-
-
     }
+    
 
     @Override
     protected void onStart() {
@@ -108,39 +102,6 @@ public class MainActivity extends AppCompatActivity implements  OnMapReadyCallba
         mapView.onDestroy();
     }
 
-    @Override
-    public void onExplanationNeeded(List<String> permissionsToExplain) {
 
-    }
-
-    @Override
-    public void onPermissionResult(boolean granted) {
-
-    }
-
-    @Override
-    public void onMapReady(@NonNull MapboxMap mapboxMap) {
-
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
 }
 
