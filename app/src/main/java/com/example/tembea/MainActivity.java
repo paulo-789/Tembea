@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.api.directions.v5.models.DirectionsRoute;
+import com.mapbox.geojson.GeoJson;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
@@ -25,6 +28,10 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
+import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
+import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
 
 
 import org.jetbrains.annotations.NotNull;
@@ -34,6 +41,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
+
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, MapboxMap.OnMapClickListener, PermissionsListener {
 
 
@@ -41,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     MapboxMap mapboxMap;
     LocationComponent locationComponent;
     PermissionsManager permissionsManager;
+    DirectionsRoute currentRoute;
 
 
     @Override
@@ -56,6 +68,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView.getMapAsync(this);
     }
 
+
+    public void startNavigationBtnClick(View v){
+
+        boolean simulateRoute = true;
+        NavigationLauncherOptions options = NavigationLauncherOptions.builder()
+                .directionsRoute(currentRoute)
+                .shouldSimulateRoute(simulateRoute)
+                .build();
+
+        NavigationLauncher.startNavigation(MainActivity.this,options);
+    }
+
+
     @Override
     public boolean onMapClick(@NonNull LatLng point) {
         return false;
@@ -64,13 +89,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
+
+        this.mapboxMap.setMaxZoomPreference(15);
         mapboxMap.setStyle(getString(R.string.navigation_guidance_day), new Style.OnStyleLoaded() {
             @Override
             public void onStyleLoaded(@NonNull Style style) {
                 enableLocationComponent(style);
+                addDestinationIconLayer(style);
+                mapboxMap.addOnMapClickListener(MainActivity.this);
             }
         });
 
+    }
+
+    private void addDestinationIconLayer(Style style) {
+        style.addImage("destination-icon-id",
+                BitmapFactory.decodeResource(this.getResources(),R.drawable.mapbox_marker_icon_default));
+
+        GeoJsonSource geoJsonSource = new GeoJsonSource("destination-source-id");
+        style.addSource(geoJsonSource);
+
+        SymbolLayer destinationSymbolLayer = new SymbolLayer("destination-symbol-layer-id","destination-source-id");
+        destinationSymbolLayer.withProperties(iconImage("destination-icon-id"),iconAllowOverlap(true),
+                iconIgnorePlacement(true));
     }
 
     private void enableLocationComponent(@NotNull Style loadedMapStyle) {
