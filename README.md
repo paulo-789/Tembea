@@ -8,7 +8,7 @@ Tembea
 
 
 ## Description
- An app that allows you to to see various tourist attraction sites near you.
+ An app that allows tourists to find their way in various places they are.
 
 ## Project set up
  * Open the terminal in your device.
@@ -23,6 +23,7 @@ Tembea
 
 * Java
 *android
+*mapbox api
 
 
 
