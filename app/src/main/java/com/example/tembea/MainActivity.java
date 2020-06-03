@@ -18,8 +18,11 @@ import android.widget.Toast;
 
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
+import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.GeoJson;
+import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
@@ -32,6 +35,8 @@ import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
+import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
+import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 
 
 import org.jetbrains.annotations.NotNull;
@@ -40,6 +45,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
@@ -53,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     LocationComponent locationComponent;
     PermissionsManager permissionsManager;
     DirectionsRoute currentRoute;
+    NavigationMapRoute navigationMapRoute;
 
 
     @Override
@@ -83,7 +92,44 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onMapClick(@NonNull LatLng point) {
-        return false;
+        Point destinationPoint = Point.fromLngLat(point.getLongitude(),point.getLatitude());
+        Point originPoint = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(),
+                locationComponent.getLastKnownLocation().getLatitude());
+
+        GeoJsonSource source = mapboxMap.getStyle().getSourceAs("destination-sources-id");
+        if(source!=null){
+            source.setGeoJson(Feature.fromGeometry(destinationPoint));
+        }
+        getRoute(originPoint,destinationPoint);
+        return true;
+    }
+
+    private void getRoute(Point originPoint, Point destinationPoint) {
+        NavigationRoute.builder(this)
+                .accessToken(Mapbox.getAccessToken())
+                .origin(originPoint)
+                .destination(destinationPoint)
+                .build()
+                .getRoute(new Callback<DirectionsResponse>() {
+                    @Override
+                    public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
+                        if (response.body()!=null && response.body().routes().size()>0){
+                            currentRoute = response.body().routes().get(0);
+                            if (navigationMapRoute!=null){
+                                navigationMapRoute.removeRoute();
+                            }
+                            else{
+                               navigationMapRoute=new NavigationMapRoute(null,mapView,mapboxMap,R.style.NavigationMapRoute);
+                            }
+                            navigationMapRoute.addRoute(currentRoute);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<DirectionsResponse> call, Throwable t) {
+
+                    }
+                });
     }
 
     @Override
@@ -112,6 +158,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         SymbolLayer destinationSymbolLayer = new SymbolLayer("destination-symbol-layer-id","destination-source-id");
         destinationSymbolLayer.withProperties(iconImage("destination-icon-id"),iconAllowOverlap(true),
                 iconIgnorePlacement(true));
+
+        style.addLayer(destinationSymbolLayer);
     }
 
     private void enableLocationComponent(@NotNull Style loadedMapStyle) {
