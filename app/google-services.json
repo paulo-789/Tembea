@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "141108297993",
+    "firebase_url": "https://tembea-29bdb.firebaseio.com",
+    "project_id": "tembea-29bdb",
+    "storage_bucket": "tembea-29bdb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141108297993:android:034f23f13028bbfb7793d8",
+        "android_client_info": {
+          "package_name": "com.example.tembea"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "141108297993-9tqb8fk9fmaemnfp37vrr2v8ooro86oj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tembea",
+            "certificate_hash": "6cae5ae6039d1371d1b0acf5f0e49e7342b276c5"
+          }
+        },
+        {
+          "client_id": "141108297993-n79403tdrealkvsnoau3nopkra1pmb1r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqk_IulLO48gckAwazM9D8on5zg_UXjhI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "141108297993-n79403tdrealkvsnoau3nopkra1pmb1r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
