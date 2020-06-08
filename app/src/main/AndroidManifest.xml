@@ -13,22 +13,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity_login">
+        <activity android:name=".activity_login"
+            android:theme="@style/NoActionBarTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateAccountActivity" /> <!-- <activity android:name=".Places" -->
+        <activity android:name=".CreateAccountActivity"
+            android:theme="@style/NoActionBarTheme">
+        <!-- <activity android:name=".Places" -->
         <!-- <meta-data -->
         <!-- android:name="android.support.PARENT_ACTIVITY" -->
         <!-- android:value="com.example.tembea.MainActivity"> -->
         <!-- </meta-data> -->
         <!-- </activity> -->
+        </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/NoActionBarTheme">
+            >
 
         </activity>
     </application>
